@@ -9,8 +9,8 @@ const int pbcount = sizeof(permabuttons)/sizeof(permabuttons[0]);
 int pbstatus[4];
 int pbprev[4] = {0, 0, 0, 0};
 
-int knobpin1 = 0;
-int knobpin2 = 1;
+int knobpin1 = 3;
+int knobpin2 = 4;
 int enca = 5;
 int encb = 4;
 
@@ -42,6 +42,13 @@ const char* remoteIp = "192.168.7.1";
 // "127.0.0.1";
 // "192.168.7.2";
 
+void Bela_userSettings(BelaInitSettings *settings)
+{
+	settings->uniformSampleRate = 1;
+	settings->interleave = 0;
+	settings->analogOutputsPersist = 0;
+}
+
 bool setup(BelaContext *context, void *userData)
 {
 	oscSender.setup(remotePort, remoteIp);
@@ -66,8 +73,11 @@ bool setup(BelaContext *context, void *userData)
 	pinMode(context, 0, encb, INPUT);
 
 	encprev = digitalRead(context, 0, enca);
+
+	BelaLibpdSettings s;
+	return BelaLibpd_setup(context, userData, s);
 	
-	return true;
+	// return true;
 }
 
 
@@ -80,10 +90,47 @@ void render(BelaContext *context, void *userData)
 
 		if (pbstatus[i] == 1 && pbprev[i] == 0)
 		{
+			const char *sendvalp;
+
+			if (i == 0)
+			{
+				sendvalp = "pb0";
+			} else if (i == 1)
+			{
+				sendvalp = "pb1";
+			} else if (i == 2)
+			{
+				sendvalp = "pb2";
+			} else if (i == 3)
+			{
+				sendvalp = "pb3";
+			}
+		
+			// printf("sendval: %s\n", sendvalp);
+			libpd_float(sendvalp, pbstatus[i]);
 			oscSender.newMessage("/pb" + std::to_string(i)).add(pbstatus[i]).sendNonRt();
 			pbprev[i] =  1;
 		
 		} else if (pbstatus[i] == 0 && pbprev[i] == 1){
+
+			const char *sendvalr;
+
+			if (i == 0)
+			{
+				sendvalr = "pb0";
+			} else if (i == 1)
+			{
+				sendvalr = "pb1";
+			} else if (i == 2)
+			{
+				sendvalr = "pb2";
+			} else if (i == 3)
+			{
+				sendvalr = "pb3";
+			}
+		
+			// printf("sendval: %s\n", sendvalr);
+			libpd_float(sendvalr, pbstatus[i]);
 			oscSender.newMessage("/pb" + std::to_string(i)).add(pbstatus[i]).sendNonRt();
 			pbprev[i] = 0;
 		}
@@ -101,31 +148,31 @@ void render(BelaContext *context, void *userData)
 			if (cistatus[i] == 1 && pdstatus[j] == 1 && pdprev[j] == 0){
 				pdprev[j] = 1;
 				rememberi = i;
-				oscSender.newMessage("/ci" + std:: to_string(i)).add(i).add(j).add(pdstatus[j]).sendNonRt();
+				// oscSender.newMessage("/ci" + std:: to_string(i)).add(i).add(j).add(pdstatus[j]).sendNonRt();
 				// printf("i + j: %d, %d\n", i, j);
 			} else if(cistatus[rememberi] == 0 && pdstatus[j] == 0 && pdprev[j] == 1){
 				pdprev[j] = 0;
-				oscSender.newMessage("/ci" + std:: to_string(rememberi)).add(rememberi).add(j).add(pdstatus[j]).sendNonRt();
+				// oscSender.newMessage("/ci" + std:: to_string(rememberi)).add(rememberi).add(j).add(pdstatus[j]).sendNonRt();
 			}
 		}
 	}
 
-	float knob1status = floor(analogRead(context, 0, knobpin1)*1000)/1000;
-	float knob2status = floor(analogRead(context, 0, knobpin2)*1000)/1000;
+	// float knob1status = floor(analogRead(context, 0, knobpin1)*1000)/1000;
+	// float knob2status = floor(analogRead(context, 0, knobpin2)*1000)/1000;
 
-	if (knob1status < knob1_old - .018 || knob1status > knob1_old + .018){
-		knob1_old = knob1status;
-	}
+	// if (knob1status < knob1_old - .018 || knob1status > knob1_old + .018){
+	// 	knob1_old = knob1status;
+	// }
 
-	if (knob2status < knob2_old - .018 || knob2status > knob2_old + .018){
-		knob2_old = knob2status;
-	}
+	// if (knob2status < knob2_old - .018 || knob2status > knob2_old + .018){
+	// 	knob2_old = knob2status;
+	// }
 
 	// printf("knob1status: %f\n", knob1_old);
 	// printf("knob2status: %f\n", knob2_old);
 
-	oscSender.newMessage("/knob1").add(map(knob1_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
-	oscSender.newMessage("/knob2").add(map(knob2_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
+	// oscSender.newMessage("/knob1").add(map(knob1_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
+	// oscSender.newMessage("/knob2").add(map(knob2_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
 
 	// encoder test
 	enccurr = digitalRead(context, 0, enca);
@@ -147,12 +194,17 @@ void render(BelaContext *context, void *userData)
 
 	encprev = enccurr;
 	// printf("encoder test: %d\n", count);
+
+	
 	
 	for(unsigned int n = 0; n < context->audioFrames; n++)
 	{
 		
 		
+		
 	}	
+
+	BelaLibpd_render(context, userData);
 	
 }
 
