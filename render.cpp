@@ -32,12 +32,12 @@ std::string encdir = "";
 int ci[] = {6, 7, 8, 9};
 const int cicount = sizeof(ci)/sizeof(ci[0]);
 int cistatus[4];
-int ciprev[6] = {0, 0, 0, 0};
+int ciprev[4] = {0, 0, 0, 0};
 int rememberi = 0;
 int rememberj = 0;
 
 OscSender oscSender;
-int localPort = 7562;
+// int localPort = 7562;
 int remotePort = 7563;
 const char* remoteIp = "192.168.7.1";
 // "127.0.0.1";
@@ -91,7 +91,7 @@ void render(BelaContext *context, void *userData)
 	}
 
 	// custom input
-	for (int i = 0; i < cicount; i++){ // 6 total
+	for (int i = 0; i < cicount; i++){ // 4 total
 		cistatus[i] = digitalRead(context, 0, ci[i]);
 		// oscSender.newMessage("/ci" + std::to_string(i)).add(cistatus[i]).sendNonRt();
 

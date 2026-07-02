@@ -1,4 +1,4 @@
-#N canvas 54 74 1360 743 10;
+#N canvas 18 117 1360 743 10;
 #X text 37 58 ............................;
 #X text 37 68 . ____ ._____ _ .......___ .;
 #X text 37 78 .| __ )| ____| |....../ _ |.;
@@ -56,7 +56,7 @@
 #X text 370 339 osc-test;
 #X text 139 426 send OSC to Bela;
 #X obj 578 377 cnv 16 100 100 empty empty 0-sampler 20 12 0 32 #c7c6ff #404040 0;
-#N canvas 810 120 660 712 sampler 0;
+#N canvas 780 136 660 712 sampler 1;
 #N canvas 704 358 244 307 live-array 0;
 #X obj 48 20 inlet;
 #X obj 87 48 inlet;
@@ -369,6 +369,7 @@
 #X obj 1269 187 print;
 #X msg 1296 131 set pd!;
 #X obj 1269 101 t b b;
+#X obj 257 737 dac~;
 #X connect 14 0 19 0;
 #X connect 15 0 18 0;
 #X connect 16 0 17 0;
@@ -417,6 +418,8 @@
 #X connect 58 0 32 0;
 #X connect 60 0 84 0;
 #X connect 60 0 84 1;
+#X connect 60 0 92 0;
+#X connect 60 0 92 1;
 #X connect 62 0 35 0;
 #X connect 63 0 32 0;
 #X connect 63 1 32 0;
