@@ -369,7 +369,7 @@
 #X obj 1269 187 print;
 #X msg 1296 131 set pd!;
 #X obj 1269 101 t b b;
-#X obj 257 737 dac~;
+#X obj 160 705 bela/audio-in~ 0;
 #X connect 14 0 19 0;
 #X connect 15 0 18 0;
 #X connect 16 0 17 0;
@@ -418,8 +418,6 @@
 #X connect 58 0 32 0;
 #X connect 60 0 84 0;
 #X connect 60 0 84 1;
-#X connect 60 0 92 0;
-#X connect 60 0 92 1;
 #X connect 62 0 35 0;
 #X connect 63 0 32 0;
 #X connect 63 1 32 0;
@@ -463,3 +461,4 @@
 #X connect 90 0 88 0;
 #X connect 91 0 88 0;
 #X connect 91 1 90 0;
+#X connect 92 0 84 0;
