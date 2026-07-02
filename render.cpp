@@ -11,6 +11,7 @@ int pbprev[4] = {0, 0, 0, 0};
 
 int knobpin1 = 0;
 int knobpin2 = 1;
+int filterin1 = 2;
 int enca = 5;
 int encb = 4;
 
@@ -112,6 +113,7 @@ void render(BelaContext *context, void *userData)
 
 	float knob1status = floor(analogRead(context, 0, knobpin1)*1000)/1000;
 	float knob2status = floor(analogRead(context, 0, knobpin2)*1000)/1000;
+	float filter1status = analogRead(context, 0, filterin1);
 
 	if (knob1status < knob1_old - .018 || knob1status > knob1_old + .018){
 		knob1_old = knob1status;
@@ -126,6 +128,7 @@ void render(BelaContext *context, void *userData)
 
 	oscSender.newMessage("/knob1").add(map(knob1_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
 	oscSender.newMessage("/knob2").add(map(knob2_old, 0.0, 0.8, 0.0, 1.0)).sendNonRt();
+	oscSender.newMessage("/filter1").add(filter1status).sendNonRt();
 
 	// encoder test
 	enccurr = digitalRead(context, 0, enca);
