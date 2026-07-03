@@ -39,9 +39,10 @@ int rememberj = 0;
 OscSender oscSender;
 // int localPort = 7562;
 int remotePort = 7563;
-const char* remoteIp = "192.168.7.1";
+const char* remoteIp = "localhost";
 // "127.0.0.1";
-// "192.168.7.2";
+// computer "192.168.7.1"
+// bela "192.168.7.2";
 
 bool setup(BelaContext *context, void *userData)
 {
@@ -67,8 +68,11 @@ bool setup(BelaContext *context, void *userData)
 	pinMode(context, 0, encb, INPUT);
 
 	encprev = digitalRead(context, 0, enca);
+
+	BelaLibpdSettings s;
+    return BelaLibpd_setup(context, userData, s);
 	
-	return true;
+	// return true;
 }
 
 
@@ -155,7 +159,9 @@ void render(BelaContext *context, void *userData)
 	{
 		
 		
-	}	
+	}
+	
+	BelaLibpd_render(context, userData);
 	
 }
 

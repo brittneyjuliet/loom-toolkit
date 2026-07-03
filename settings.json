@@ -84,11 +84,11 @@
         "audioOutputChannelSettings": [
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -25
             },
             {
                 "meterStyle": "AC",
-                "gain": -6
+                "gain": -25
             },
             {
                 "meterStyle": "AC",
