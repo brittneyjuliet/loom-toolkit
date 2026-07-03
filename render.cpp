@@ -39,7 +39,7 @@ int rememberj = 0;
 OscSender oscSender;
 // int localPort = 7562;
 int remotePort = 7563;
-const char* remoteIp = "localhost";
+const char* remoteIp = "127.0.0.1";
 // "127.0.0.1";
 // computer "192.168.7.1"
 // bela "192.168.7.2";

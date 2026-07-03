@@ -369,7 +369,7 @@
 #X obj 1269 187 print;
 #X msg 1296 131 set pd!;
 #X obj 1269 101 t b b;
-#X msg 131 530 connect localhost 7562;
+#X msg 131 530 connect 127.0.0.1 7562;
 #X connect 14 0 91 0;
 #X connect 15 0 18 0;
 #X connect 16 0 17 0;
